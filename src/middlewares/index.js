@@ -1,3 +1,4 @@
 module.exports = {
-    Response: require('./responses')
+    Response: require('./responses'),
+    VerifyToken: require('./verify_token'),
 }

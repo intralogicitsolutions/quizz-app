@@ -18,7 +18,7 @@ AuthService.signup = async (req, res) => {
     body['password'] = encryptedPassword;
     const user = await new Users(body).save();
     delete user._doc.password;
-    Response.success(req, res, StatusCodes.HTTP_OK, user);
+    Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, user);
 }
 
 AuthService.signin = async (req, res) => {
@@ -34,12 +34,12 @@ AuthService.signin = async (req, res) => {
     const jwt_token = await generateAuthToken(user);
     user['access_token'] = jwt_token;
 
-    Response.success(req, res, StatusCodes.HTTP_OK, user);
+    Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, user);
 }
 
 const generateAuthToken = async (user) => {
     // Create auth token
-    let jwt_token = jwt.sign(user, process.env.JWT_SECRET);
+    let jwt_token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '8h' });
     return jwt_token;
 }
 
