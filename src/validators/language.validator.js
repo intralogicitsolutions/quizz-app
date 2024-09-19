@@ -1,9 +1,9 @@
 const Joi = require("joi");
 const BaseValidation = require("../middlewares/base_validation");
 
-class CommonValidation { }
+class LanguageValidation { }
 
-CommonValidation.getLanguageById = (req, res, next) => {
+LanguageValidation.getLanguageById = (req, res, next) => {
     const obj = Joi.object({
         _id: Joi.string().required()
     });
@@ -11,7 +11,7 @@ CommonValidation.getLanguageById = (req, res, next) => {
     return BaseValidation.query(req, res, next, obj);
 };
 
-CommonValidation.createLanguage = (req, res, next) => {
+LanguageValidation.createLanguage = (req, res, next) => {
     const obj = Joi.object({
         name: Joi.string().required()
     });
@@ -19,7 +19,7 @@ CommonValidation.createLanguage = (req, res, next) => {
     return BaseValidation.body(req, res, next, obj);
 };
 
-CommonValidation.deleteLanguage = (req, res, next) => {
+LanguageValidation.deleteLanguage = (req, res, next) => {
     const obj = Joi.object({
         _id: Joi.string().required()
     });
@@ -27,4 +27,4 @@ CommonValidation.deleteLanguage = (req, res, next) => {
     return BaseValidation.query(req, res, next, obj);
 };
 
-module.exports = CommonValidation;
+module.exports = LanguageValidation;

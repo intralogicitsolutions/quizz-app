@@ -1,52 +1,52 @@
-const { CommonService } = require("../services");
+const { CategoryService } = require("../services");
 const { Response } = require("../middlewares");
 const { StatusCodes, ResponseMessage } = require("../constants");
 
-class CommonController { }
+class CategoryController { }
 
-CommonController.getLanguages = async (req, res) => {
+CategoryController.getCategories = async (req, res) => {
     try {
-        await CommonService.getLanguages(req, res);
+        await CategoryService.getCategories(req, res);
     } catch (error) {
         Response.errors(req, res, StatusCodes.HTTP_INTERNAL_SERVER_ERROR, ResponseMessage.TRY_AGAIN_LATER);
     }
 }
 
-CommonController.getLanguageById = async (req, res) => {
+CategoryController.getCategoryById = async (req, res) => {
     try {
-        await CommonService.getLanguageById(req, res);
+        await CategoryService.getCategoryById(req, res);
     } catch (error) {
         Response.errors(req, res, StatusCodes.HTTP_INTERNAL_SERVER_ERROR, ResponseMessage.TRY_AGAIN_LATER);
     }
 }
 
-CommonController.createLanguage = async (req, res) => {
+CategoryController.createCategory = async (req, res) => {
     try {
-        await CommonService.createLanguage(req, res);
+        await CategoryService.createCategory(req, res);
     } catch (error) {
         Response.errors(req, res, StatusCodes.HTTP_INTERNAL_SERVER_ERROR, ResponseMessage.TRY_AGAIN_LATER);
     }
 }
 
-CommonController.updateLanguage = async (req, res) => {
+CategoryController.updateCategory = async (req, res) => {
     try {
-        if(!req?.body?._id) {
+        if (!req?.body?._id) {
             return Response.errors(req, res, StatusCodes.HTTP_BAD_REQUEST, '_id is required');
         }
-        await CommonService.updateLanguage(req, res);
+        await CategoryService.updateCategory(req, res);
     } catch (error) {
         console.error(error)
         Response.errors(req, res, StatusCodes.HTTP_INTERNAL_SERVER_ERROR, ResponseMessage.TRY_AGAIN_LATER);
     }
 }
 
-CommonController.deleteLanguage = async (req, res) => {
+CategoryController.deleteCategory = async (req, res) => {
     try {
-        await CommonService.deleteLanguage(req, res);
+        await CategoryService.deleteCategory(req, res);
     } catch (error) {
         console.error(error)
         Response.errors(req, res, StatusCodes.HTTP_INTERNAL_SERVER_ERROR, ResponseMessage.TRY_AGAIN_LATER);
     }
 }
 
-module.exports = CommonController;
+module.exports = CategoryController;

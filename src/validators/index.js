@@ -1,4 +1,5 @@
 module.exports = {
     AuthValidator: require("./auth.validator"),
-    CommonValidator: require("./common.validator"),
+    LanguageValidator: require("./language.validator"),
+    CategoryValidator: require("./category.validator"),
 };

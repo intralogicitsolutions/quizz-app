@@ -1,4 +1,5 @@
 module.exports = {
     AuthService: require("./auth.service"),
-    CommonService: require("./common.service"),
+    LanguageService: require("./language.service"),
+    CategoryService: require("./category.service"),
 };

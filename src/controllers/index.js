@@ -1,4 +1,5 @@
 module.exports = {
     AuthController: require('./auth.controller'),
-    CommonController: require('./common.controller')
+    LanguageController: require('./language.controller'),
+    CategoryController: require('./category.controller'),
 }
