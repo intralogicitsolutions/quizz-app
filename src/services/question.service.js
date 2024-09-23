@@ -5,8 +5,9 @@ const { Questions } = require("../models");
 class QuestionService { }
 
 QuestionService.getQuestions = async (req, res) => {
-    const { language_id, category_id, difficulty } = req.query;
-    const response = await Questions.find({ language_id, category_id, difficulty });
+    let { language_id, category_id, difficulty, limit } = req.query;
+    limit = limit ? parseInt(limit) : 10;
+    const response = await Questions.find({ language_id, category_id, difficulty }).limit(limit);
     // const data = response?.map((e) => {
     //     delete e?._doc?.correctAnswer;
     //     return e;

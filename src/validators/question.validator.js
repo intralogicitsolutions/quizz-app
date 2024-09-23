@@ -8,6 +8,7 @@ QuestionValidation.getQuestions = (req, res, next) => {
         language_id: Joi.string().required(),
         category_id: Joi.string().required(),
         difficulty: Joi.string().required(),
+        limit: Joi.number()
     });
 
     return BaseValidation.query(req, res, next, obj);
