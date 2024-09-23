@@ -33,6 +33,7 @@ AuthService.signin = async (req, res) => {
     delete user.password;
     const jwt_token = await generateAuthToken(user);
     user['access_token'] = jwt_token;
+    console.log(user['access_token']);
 
     Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, user);
 }
