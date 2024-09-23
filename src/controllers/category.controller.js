@@ -1,6 +1,7 @@
 const { CategoryService } = require("../services");
 const { Response } = require("../middlewares");
 const { StatusCodes, ResponseMessage } = require("../constants");
+const { Logger } = require("../helper");
 
 class CategoryController { }
 
