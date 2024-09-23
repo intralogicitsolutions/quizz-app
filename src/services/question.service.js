@@ -5,13 +5,13 @@ const { Questions } = require("../models");
 class QuestionService { }
 
 QuestionService.getQuestions = async (req, res) => {
-    const data = await Questions.find(
-        {
-            language_id: req.query.language_id,
-            category_id: req.query.category_id
-        }
-    );
-    Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, data);
+    const { language_id, category_id, difficulty } = req.query;
+    const response = await Questions.find({ language_id, category_id, difficulty });
+    // const data = response?.map((e) => {
+    //     delete e?._doc?.correctAnswer;
+    //     return e;
+    // });
+    Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, response);
 }
 
 QuestionService.getQuestionById = async (req, res) => {
