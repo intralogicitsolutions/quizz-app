@@ -5,10 +5,10 @@ class QuestionValidation { }
 
 QuestionValidation.getQuestions = (req, res, next) => {
     const obj = Joi.object({
-        language_id: Joi.string().required(),
-        category_id: Joi.string().required(),
-        difficulty: Joi.string().required(),
-        limit: Joi.number()
+        question_id: Joi.string().required(),
+        // category_id: Joi.string().required(),
+        // difficulty: Joi.string().required(),
+        // limit: Joi.number()
     });
 
     return BaseValidation.query(req, res, next, obj);
@@ -25,11 +25,11 @@ QuestionValidation.getQuestionById = (req, res, next) => {
 QuestionValidation.createQuestion = (req, res, next) => {
     const obj = Joi.object({
         question: Joi.string().required(),
-        answers: Joi.array().required(),
-        correctAnswer: Joi.number().required(),
-        language_id: Joi.string().required(),
-        category_id: Joi.string().required(),
-        difficulty: Joi.string().required(),
+        options: Joi.array().required(),
+        correct_answer: Joi.number().required(),
+        question_id: Joi.string().required(),
+        // category_id: Joi.string().required(),
+        // difficulty: Joi.string().required(),
     });
 
     return BaseValidation.body(req, res, next, obj);

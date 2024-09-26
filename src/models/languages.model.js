@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const languages_schema = new Schema({
+const LanguagesSchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -9,4 +9,4 @@ const languages_schema = new Schema({
     }
 });
 
-module.exports = mongoose.model("languages", languages_schema);
+module.exports = mongoose.model("languages", LanguagesSchema);

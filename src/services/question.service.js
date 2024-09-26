@@ -5,9 +5,9 @@ const { Questions } = require("../models");
 class QuestionService { }
 
 QuestionService.getQuestions = async (req, res) => {
-    let { language_id, category_id, difficulty, limit } = req.query;
-    limit = limit ? parseInt(limit) : 10;
-    const response = await Questions.find({ language_id, category_id, difficulty }).limit(limit);
+    let { question_id, } = req.query;
+    // limit = limit ? parseInt(limit) : 10;
+    const response = await Questions.find({ question_id});
     // const data = response?.map((e) => {
     //     delete e?._doc?.correctAnswer;
     //     return e;
@@ -22,7 +22,7 @@ QuestionService.getQuestionById = async (req, res) => {
 }
 
 QuestionService.createQuestion = async (req, res) => {
-    const data = await Questions.find({ question: req?.body.question });
+    const data = await Questions.find({ question: req?.body?.question });
 
     if (data && data?.length) {
         return Response.errors(req, res, StatusCodes.HTTP_BAD_REQUEST, ResponseMessage.ALREADY_EXISTS);

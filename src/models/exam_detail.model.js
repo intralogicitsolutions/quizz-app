@@ -1,24 +1,23 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const QuestionSchema = new Schema({
-    question: {
+const ExamDetailSchema = new Schema({
+    exam_name: {
         type: String,
         required: true,
-        unique: true
     },
-    options: {
-        type: Array,
+    language_id: {
+        type: String,
         required: true,
     },
-    correct_answer: {
-        type: Number,
+    category_id: {
+        type: String,
         required: true,
     },
-    question_id: {
+    difficulty: {
         type: String,
         required: true,
     },
 });
 
-module.exports = mongoose.model("questions", QuestionSchema);
+module.exports = mongoose.model("exam_details", ExamDetailSchema);
