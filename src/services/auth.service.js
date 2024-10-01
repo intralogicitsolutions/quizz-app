@@ -78,7 +78,7 @@ AuthService.forgotPassword = async (req, res) => {
         const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
         const emailBody = `Click the following link to reset your password: ${resetLink}`;
 
-        await sendResetEmail(req, res, email_id, emailBody); // This handles the response
+        await sendResetEmail(req, res, email_id, emailBody, resetToken); // This handles the response
 
     } catch (error) {
         console.error("Forgot password error: ", error);
@@ -150,7 +150,7 @@ const generateAuthToken = async (user) => {
 // );
 // }
 
-const sendResetEmail = async (req, res, email, message) => {
+const sendResetEmail = async (req, res, email, message, resetToken) => {
     console.log('process.env.SMTP_USERprocess.env.SMTP_USER',process.env.SMTP_USER, process.env.SMTP_PASS)
     try {
         let transporter = nodemailer.createTransport({
@@ -177,7 +177,7 @@ const sendResetEmail = async (req, res, email, message) => {
                 return res.status(400).json({ status: 400, message: "Error sending email." });
             }
             console.log("Email sent:", info.response);
-            res.status(200).json({ status: 200, message: "Email sent successfully!" });
+            res.status(200).json({resetToken, status: 200, message: "Email sent successfully!" });
         });
 
         //Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, { message: "Reset email sent." });
