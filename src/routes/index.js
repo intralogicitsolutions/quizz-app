@@ -5,6 +5,7 @@ const initializeRoutes = (app) => {
     app.use("/question", require("./question.routes"));
     app.use("/exam_detail", require("./exam_detail.routes"));
     app.use("/score_detail", require("./score_detail.routes"));
+    app.use("/rank_detail", require("./rank_detail.routes"));
 };
 
 module.exports = initializeRoutes;

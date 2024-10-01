@@ -27,10 +27,10 @@ ScoreDetailController.getScoreDetailById = async (req, res) => {
 
 ScoreDetailController.createScoreDetail = async (req, res) => {
     try {
-        Logger.info(`'Create ExamDetail' API Called`, { user_id: req?.user?._id, method: req?.method });
+        Logger.info(`'Create ScoreDetail' API Called`, { user_id: req?.user?._id, method: req?.method });
         await ScoreDetailService.createScoreDetail(req, res);
     } catch (error) {
-        Logger.error(`'Create ExamDetail' API Error: ${error.message}`, { user_id: req?.user?._id, method: req?.method });
+        Logger.error(`'Create ScoreDetail' API Error: ${error.message}`, { user_id: req?.user?._id, method: req?.method });
         Response.errors(req, res, StatusCodes.HTTP_INTERNAL_SERVER_ERROR, ResponseMessage.TRY_AGAIN_LATER);
     }
 }

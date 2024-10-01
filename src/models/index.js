@@ -4,5 +4,6 @@ module.exports = {
     Categories: require('./category.model'),
     Questions: require('./question.model'),
     ExamDetails: require('./exam_detail.model'),
-    ScoreDetails: require('./score_detail.model')
+    ScoreDetails: require('./score_detail.model'),
+    RankDetails: require('./rank_detail.model'),
 }

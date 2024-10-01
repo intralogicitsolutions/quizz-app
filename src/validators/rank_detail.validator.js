@@ -1,19 +1,18 @@
 const Joi = require("joi");
 const BaseValidation = require("../middlewares/base_validation");
 
-class ScoreDetailValidation { }
+class RankDetailValidation { }
 
-ScoreDetailValidation.getScoreDetails = (req, res, next) => {
+RankDetailValidation.getRankDetails = (req, res, next) => {
     const obj = Joi.object({
-       user_id: Joi.string().required(),
+        score_id: Joi.string().required(),
         exam_id: Joi.string().required(),
-        score: Joi.number().required(),
     });
 
     return BaseValidation.query(req, res, next, obj);
 };
 
-ScoreDetailValidation.getScoreDetailById = (req, res, next) => {
+RankDetailValidation.getRankDetailById = (req, res, next) => {
     const obj = Joi.object({
         _id: Joi.string().required()
     });
@@ -21,11 +20,11 @@ ScoreDetailValidation.getScoreDetailById = (req, res, next) => {
     return BaseValidation.query(req, res, next, obj);
 };
 
-ScoreDetailValidation.createScoreDetail = (req, res, next) => {
+RankDetailValidation.createRankDetail = (req, res, next) => {
     const obj = Joi.object({
-        user_id: Joi.string().required(),
         exam_id: Joi.string().required(),
         score: Joi.number().required(),
+        score_id: Joi.string().required()
     });
 
     return BaseValidation.body(req, res, next, obj);
@@ -33,4 +32,4 @@ ScoreDetailValidation.createScoreDetail = (req, res, next) => {
 
 
 
-module.exports = ScoreDetailValidation;
+module.exports = RankDetailValidation;
