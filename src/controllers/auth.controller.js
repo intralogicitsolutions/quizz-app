@@ -25,4 +25,25 @@ AuthController.signin = async (req, res) => {
     }
 }
 
+AuthController.forgotPassword = async (req, res) => {
+    try {
+        Logger.info(`'Forgot Password' API Called`, { email: req?.user?._id, method: req?.method });
+        await AuthService.forgotPassword(req, res);
+    } catch (error) {
+        Logger.error(`'Forgot Password' API Error: ${error.message}`, { email: req?.user?._id, method: req?.method });
+        Response.errors(req, res, StatusCodes.HTTP_INTERNAL_SERVER_ERROR, ResponseMessage.TRY_AGAIN_LATER);
+    }
+}
+
+AuthController.resetPassword = async (req, res) => {
+    try {
+        Logger.info(`'Reset Password' API Called`, { token: req.body?.token, method: req?.method });
+        await AuthService.resetPassword(req, res);
+    } catch (error) {
+        Logger.error(`'Reset Password' API Error: ${error.message}`, { token: req.body?.token, method: req?.method });
+        Response.errors(req, res, StatusCodes.HTTP_INTERNAL_SERVER_ERROR, ResponseMessage.TRY_AGAIN_LATER);
+    }
+}
+
+
 module.exports = AuthController;

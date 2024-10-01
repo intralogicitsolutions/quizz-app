@@ -23,4 +23,22 @@ AuthValidation.signin = (req, res, next) => {
     return BaseValidation.body(req, res, next, obj);
 };
 
+AuthValidation.forgotPassword = (req, res, next) => {
+    const obj = Joi.object({
+        email_id: Joi.string().email().required(), 
+    });
+
+    return BaseValidation.body(req, res, next, obj);
+};
+
+AuthValidation.resetPassword = (req, res, next) => {
+    const obj = Joi.object({
+        token: Joi.string().required(), 
+        new_password: Joi.string().required(), 
+    });
+
+    return BaseValidation.body(req, res, next, obj);
+};
+
+
 module.exports = AuthValidation;

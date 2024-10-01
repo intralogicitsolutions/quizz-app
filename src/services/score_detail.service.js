@@ -68,18 +68,4 @@ ScoreDetailService.createScoreDetail = async (req, res) => {
     Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, scoreDetail);
 }
 
-// ScoreDetailService.updateExamDetail = async (req, res) => {
-//     const { _id, ...body } = req.body;
-//     const data = await ExamDetails.findOneAndUpdate({ _id }, body, { new: true });
-
-//     Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, data);
-// }
-
-// ScoreDetailService.deleteExamDetail = async (req, res) => {
-//     const { _id } = req.query;
-//     await ExamDetails.findOneAndDelete({ _id });
-
-//     Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS);
-// }
-
 module.exports = ScoreDetailService;
