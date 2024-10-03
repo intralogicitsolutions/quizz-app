@@ -69,4 +69,12 @@ RankDetailService.createRankDetail = async (req, res) => {
     Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, RankDetail);
 }
 
+RankDetailService.updateRankDetail = async (req, res) => {
+    const { _id, ...body } = req.body;
+    const data = await RankDetails.findOneAndUpdate({ _id }, body, { new: true });
+
+    Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, data);
+}
+
+
 module.exports = RankDetailService;

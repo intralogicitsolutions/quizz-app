@@ -90,4 +90,11 @@ ScoreDetailService.createScoreDetail = async (req, res) => {
     Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, scoreDetail);
 }
 
+ScoreDetailService.updateScoreDetail = async (req, res) => {
+    const { _id, ...body } = req.body;
+    const data = await ScoreDetails.findOneAndUpdate({ _id }, body, { new: true });
+
+    Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, data);
+}
+
 module.exports = ScoreDetailService;
