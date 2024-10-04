@@ -5,5 +5,6 @@ module.exports = {
     QuestionService: require("./question.service"),
     ExamDetailService: require("./exam_detail.service"),
     ScoreDetailService: require("./score_detail.service"),
-    RankDetailService: require("./rank_detail.service")
+    RankDetailService: require("./rank_detail.service"),
+    ExamResultService: require("./exam_result.service")
 };

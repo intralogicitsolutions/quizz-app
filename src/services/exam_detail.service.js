@@ -1,14 +1,18 @@
 const { Response } = require("../middlewares");
 const { StatusCodes, ResponseMessage } = require("../constants");
 const { ExamDetails } = require("../models");
+const { ObjectId } = require("mongodb");
 
 class ExamDetailService { }
 
 ExamDetailService.getExamDetails = async (req, res) => {
     let { language_id, category_id, difficulty } = req.query;
-    // limit = limit ? parseInt(limit) : 10;
+
+    language_id = ObjectId.createFromHexString(language_id);
+    category_id = ObjectId.createFromHexString(category_id);
+    
     const response = await ExamDetails.find({ language_id, category_id, difficulty });
-    // const data = await ExamDetails.find();
+    
     Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, response);
 }
 

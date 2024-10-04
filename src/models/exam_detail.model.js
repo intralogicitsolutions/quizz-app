@@ -7,11 +7,11 @@ const ExamDetailSchema = new Schema({
         required: true,
     },
     language_id: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
     },
     category_id: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
     },
     difficulty: {

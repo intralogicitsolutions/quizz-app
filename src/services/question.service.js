@@ -1,17 +1,17 @@
 const { Response } = require("../middlewares");
 const { StatusCodes, ResponseMessage } = require("../constants");
 const { Questions } = require("../models");
+const { ObjectId } = require("mongodb");
 
 class QuestionService { }
 
 QuestionService.getQuestions = async (req, res) => {
     let { question_id, } = req.query;
-    // limit = limit ? parseInt(limit) : 10;
+
+    question_id = ObjectId.createFromHexString(question_id);
+
     const response = await Questions.find({ question_id});
-    // const data = response?.map((e) => {
-    //     delete e?._doc?.correctAnswer;
-    //     return e;
-    // });
+    
     Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, response);
 }
 

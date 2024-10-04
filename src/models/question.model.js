@@ -16,7 +16,7 @@ const QuestionSchema = new Schema({
         required: true,
     },
     question_id: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
     },
 });

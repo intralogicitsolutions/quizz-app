@@ -6,4 +6,5 @@ module.exports = {
     ExamDetails: require('./exam_detail.model'),
     ScoreDetails: require('./score_detail.model'),
     RankDetails: require('./rank_detail.model'),
+    ExamResults: require('./exam_result.model'),
 }
