@@ -42,7 +42,7 @@ ExamResultController.updateExamResult = async (req, res) => {
             return Response.errors(req, res, StatusCodes.HTTP_BAD_REQUEST, '_id is required');
         }
         Logger.info(`'Update ExamResult' API Called`, { user_id: req?.user?._id, method: req?.method });
-        await RankDetailService.updateRankDetail(req, res);
+        await ExamResultService.updateExamResult(req, res);
     } catch (error) {
         Logger.error(`'Update ExamResult' API Error: ${error.message}`, { user_id: req?.user?._id, method: req?.method });
         Response.errors(req, res, StatusCodes.HTTP_INTERNAL_SERVER_ERROR, ResponseMessage.TRY_AGAIN_LATER);
@@ -52,7 +52,7 @@ ExamResultController.updateExamResult = async (req, res) => {
 ExamResultController.deleteExamResult = async (req, res) => {
     try {
         Logger.info(`'Delete ExamResult' API Called`, { user_id: req?.user?._id, method: req?.method });
-        await QuestionService.deleteQuestion(req, res);
+        await ExamResultService.deleteExamResult(req, res);
     } catch (error) {
         Logger.error(`'Delete ExamResult' API Error: ${error.message}`, { user_id: req?.user?._id, method: req?.method });
         Response.errors(req, res, StatusCodes.HTTP_INTERNAL_SERVER_ERROR, ResponseMessage.TRY_AGAIN_LATER);

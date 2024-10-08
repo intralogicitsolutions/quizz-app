@@ -125,12 +125,14 @@ ExamResultService.createExamResult = async (req, res) => {
         return res.status(201).json({
             message: "Exam result created successfully",
             data: {
+                _id: savedExamResult._id,
                 user_id: savedExamResult.user_id,
                 exam_id: savedExamResult.exam_id,
                 score: savedExamResult.score,
                 result: savedExamResult.result.map(item => ({
                     question_id: item.question_id,
-                    user_answer: item.user_answer
+                    user_answer: item.user_answer,
+                    _id: item._id
                 })),
             }
         });
