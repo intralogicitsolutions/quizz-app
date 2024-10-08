@@ -23,7 +23,6 @@ QuestionService.getQuestionById = async (req, res) => {
 
 QuestionService.createQuestion = async (req, res) => {
     const data = await Questions.find({ question: req?.body?.question });
-
     if (data && data?.length) {
         return Response.errors(req, res, StatusCodes.HTTP_BAD_REQUEST, ResponseMessage.ALREADY_EXISTS);
     }
@@ -35,6 +34,8 @@ QuestionService.createQuestion = async (req, res) => {
 
 QuestionService.updateQuestion = async (req, res) => {
     const { _id, ...body } = req.body;
+    _id = ObjectId.createFromHexString(_id);
+
     const data = await Questions.findOneAndUpdate({ _id }, body, { new: true });
 
     Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, data);

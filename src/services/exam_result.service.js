@@ -99,14 +99,14 @@ ExamResultService.createExamResult = async (req, res) => {
     //     user_id = ObjectId.createFromHexString(user_id);
     //    exam_id = ObjectId.createFromHexString(exam_id);
 
-        if (!user_id || !exam_id || !score || !result) {
-            return res.status(400).json({ message: "All fields (user_id, exam_id, score, result) are required" });
-        }
+        // if (!user_id || !exam_id || !score || !result) {
+        //     return res.status(400).json({ message: "All fields (user_id, exam_id, score, result) are required" });
+        // }
 
         const existingResult = await ExamResults.findOne({ user_id, exam_id });
-        if (existingResult) {
-            return res.status(400).json({ message: "Exam result for this user already exists." });
-        }
+        // if (existingResult) {
+        //     return res.status(400).json({ message: "Exam result for this user already exists." });
+        // }
 
         const examResult = new ExamResults({
             user_id,
