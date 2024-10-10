@@ -99,8 +99,8 @@ ExamResultService.createExamResult = async (req, res) => {
     //     user_id = ObjectId.createFromHexString(user_id);
     //    exam_id = ObjectId.createFromHexString(exam_id);
 
-        if (!user_id || !exam_id || !score || !result) {
-            return res.status(400).json({ message: "All fields (user_id, exam_id, score, result) are required" });
+        if (!user_id || !exam_id || !result) {
+            return res.status(400).json({ message: "All fields (user_id, exam_id, result) are required" });
         }
 
         const existingResult = await ExamResults.findOne({ user_id, exam_id });
@@ -111,7 +111,7 @@ ExamResultService.createExamResult = async (req, res) => {
         const examResult = new ExamResults({
             user_id,
             exam_id,
-            score,
+            score: score !== undefined ? score : 0,
             result: result.map(item => ({ 
                 question_id: item.question_id,
                 user_answer: item.user_answer
