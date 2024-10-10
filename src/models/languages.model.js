@@ -6,6 +6,9 @@ const LanguagesSchema = new Schema({
         type: String,
         required: true,
         unique: true
+    },
+    icon: {
+        type: String
     }
 });
 

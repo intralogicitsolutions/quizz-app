@@ -13,7 +13,8 @@ LanguageValidation.getLanguageById = (req, res, next) => {
 
 LanguageValidation.createLanguage = (req, res, next) => {
     const obj = Joi.object({
-        name: Joi.string().required()
+        name: Joi.string().required(),
+        icon: Joi.string()
     });
 
     return BaseValidation.body(req, res, next, obj);
