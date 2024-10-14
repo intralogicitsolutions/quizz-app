@@ -51,6 +51,14 @@ AuthValidation.editUserProfile = (req, res, next) =>{
     return BaseValidation.body(req, res, next, obj);
 }
 
+AuthValidation.getUserProfile = (req, res, next) => {
+    const obj = Joi.object({
+       user_id: Joi.string().required(),
+    });
+
+    return BaseValidation.query(req, res, next, obj);
+};
+
 
 
 module.exports = AuthValidation;

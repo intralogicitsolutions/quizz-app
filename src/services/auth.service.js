@@ -171,4 +171,31 @@ AuthService.editUserProfile = async (req, res) => {
 }
 
 
+AuthService.getUserProfile = async(req, res) => {
+    try {
+        let { user_id } = req.query;
+        user_id = ObjectId.createFromHexString(user_id);
+
+        const user = await Users.findById(user_id);
+    
+        if (!user) {
+            return Response.errors(req, res, StatusCodes.HTTP_NOT_FOUND, ResponseMessage.USER_NOT_FOUND);
+        }
+    
+        return Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS,{
+            _id: user._id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email_id: user.email_id,
+            password: user.password,
+            reset_token: user.reset_token,
+            reset_token_expires: user.reset_token_expires,
+          
+        });
+      } catch (error) {
+        return Response.errors(req, res, StatusCodes.HTTP_INTERNAL_SERVER_ERROR, ResponseMessage.SERVER_ERROR, error.message);
+      }
+}
+
+
 module.exports = AuthService;

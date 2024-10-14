@@ -55,4 +55,16 @@ AuthController.editUserProfile = async (req, res) => {
         Response.errors(req, res, StatusCodes.HTTP_INTERNAL_SERVER_ERROR, ResponseMessage.TRY_AGAIN_LATER);
     }
 }
+
+AuthController.getUserProfile = async (req, res) => {
+    try {
+        Logger.info(`'Get EditUserProfile' API Called`, { user_id: req?.user?._id, method: req?.method });
+        await AuthService.getUserProfile(req, res);
+    } catch (error) {
+        Logger.error(`'Get EditUserProfile' API Error: ${error.message}`, { user_id: req?.user?._id, method: req?.method });
+        Response.errors(req, res, StatusCodes.HTTP_INTERNAL_SERVER_ERROR, ResponseMessage.TRY_AGAIN_LATER);
+    }
+}
+
+
 module.exports = AuthController;

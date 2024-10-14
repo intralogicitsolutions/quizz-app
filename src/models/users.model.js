@@ -22,7 +22,11 @@ const UsersSchema = new Schema({
     },
     reset_token_expires: {
         type: Date,
-    }
+    },
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+    //    required: true,
+    },
 });
 
 module.exports = mongoose.model("users", UsersSchema);
