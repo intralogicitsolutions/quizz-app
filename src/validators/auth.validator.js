@@ -40,5 +40,17 @@ AuthValidation.resetPassword = (req, res, next) => {
     return BaseValidation.body(req, res, next, obj);
 };
 
+AuthValidation.editUserProfile = (req, res, next) =>{
+    const obj = Joi.object({
+        first_name: Joi.string().optional(),
+        last_name: Joi.string().optional(),
+        email_id: Joi.string().email().optional(),
+        password: Joi.string().optional(),
+    });
+
+    return BaseValidation.body(req, res, next, obj);
+}
+
+
 
 module.exports = AuthValidation;

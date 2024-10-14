@@ -5,6 +5,8 @@ const { EncDec } = require("../helper");
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
+const mongoose = require("mongoose");
+const { ObjectId } = require("mongodb");
 
 class AuthService { }
 
@@ -26,6 +28,7 @@ AuthService.signup = async (req, res) => {
 AuthService.signin = async (req, res) => {
     const { email_id, password } = req.body;
     let user = await Users.findOne({ email_id });
+    console.log("user :: ", user);
     user = user._doc;
     let isMatch = await EncDec.compare_passwords(password, user.password);
     if (!isMatch) {
@@ -34,32 +37,13 @@ AuthService.signin = async (req, res) => {
 
     delete user.password;
     const jwt_token = await generateAuthToken(user);
+    console.log("jwt_token :", jwt_token);
     user['access_token'] = jwt_token;
     console.log(user['access_token']);
 
     Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, user);
 }
 
-// AuthService.forgotPassword = async (req, res) => {
-//     const { email_id } = req.body;
-
-//     const user = await Users.findOne({ email_id });
-//     if (!user) {
-//         return Response.errors(req, res, StatusCodes.HTTP_NOT_FOUND, ResponseMessage.USER_NOT_FOUND);
-//     }
-
-//     const resetToken = jwt.sign({ user_id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-//     user.reset_token = resetToken;
-//     await user.save();
-
-//     const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
-//     const emailBody = `Click the following link to reset your password: ${resetLink}`;
-
-//     await sendResetEmail(req, res, email_id, emailBody);
-
-//     return Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.RESET_LINK_SENT);
-// }
 
 AuthService.forgotPassword = async (req, res) => {
     try {
@@ -78,13 +62,13 @@ AuthService.forgotPassword = async (req, res) => {
         const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
         const emailBody = `Click the following link to reset your password: ${resetLink}`;
 
-        await sendResetEmail(req, res, email_id, emailBody, resetToken); // This handles the response
+        await sendResetEmail(req, res, email_id, emailBody, resetToken); 
 
     } catch (error) {
         console.error("Forgot password error: ", error);
         return Response.errors(req, res, StatusCodes.HTTP_INTERNAL_SERVER_ERROR, "Internal Server Error");
     }
-};
+}
 
 
 AuthService.resetPassword = async (req, res) => {
@@ -92,7 +76,7 @@ AuthService.resetPassword = async (req, res) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        //const user = await Users.findById(decoded.user_id);
+        
         const user = await Users.findOne({ _id: decoded.user_id, reset_token: token });
 
         if (!user) {
@@ -105,7 +89,7 @@ AuthService.resetPassword = async (req, res) => {
         const encryptedPassword = await EncDec.hash_password(new_password);
         user.password = encryptedPassword;
         user.reset_token = null;
-        user.reset_token_expires = null;  // Clear the reset token after use
+        user.reset_token_expires = null;  
         await user.save();
 
         return Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.PASSWORD_UPDATED);
@@ -116,39 +100,11 @@ AuthService.resetPassword = async (req, res) => {
 
 
 const generateAuthToken = async (user) => {
-    // Create auth token
+
     let jwt_token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '8h' });
     return jwt_token;
 }
 
-// const sendResetEmail = async (req,res,email, message) => {
-//     let transporter = nodemailer.createTransport({
-//         host: "smtp.gmail.com", 
-//         port: 587,
-//         secure: false,
-//         // service: 'gmail', 
-//         auth: {
-//             user: process.env.EMAIL_USER, 
-//             pass: process.env.EMAIL_PASS 
-//         }
-//     });
-
-//     let mailOptions = {
-//         from: process.env.EMAIL_USER,
-//         to: email,
-//         subject: 'Password Reset Request',
-//         text: message
-//     };
-
-//     await transporter.sendMail(mailOptions, 
-//         (error, info) => {
-//         if (error) {
-//             return Response.errors(req, res, StatusCodes.HTTP_BAD_REQUEST, "Error sending email.");
-//         }
-//         Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, { message: "Reset email sent." });
-//     }
-// );
-// }
 
 const sendResetEmail = async (req, res, email, message, resetToken) => {
     console.log('process.env.SMTP_USERprocess.env.SMTP_USER',process.env.SMTP_USER, process.env.SMTP_PASS)
@@ -180,11 +136,39 @@ const sendResetEmail = async (req, res, email, message, resetToken) => {
             res.status(200).json({resetToken, status: 200, message: "Email sent successfully!" });
         });
 
-        //Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, { message: "Reset email sent." });
+        
     } catch (error) {
         console.error("Error sending email: ", error);
         return Response.errors(req, res, StatusCodes.HTTP_BAD_REQUEST, "Error sending email.");
     }
-};
+}
+
+
+AuthService.editUserProfile = async (req, res) => {
+    const { id } = req.params;
+    const updates = req.body;
+
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return Response.errors(req, res, StatusCodes.HTTP_BAD_REQUEST, ResponseMessage.INVALID_OBJECT_ID);
+        }
+        
+        const objectId = ObjectId.createFromHexString(id);
+
+        const existingUser = await Users.findById(objectId).exec();
+        if (!existingUser) {
+            return Response.errors(req, res, StatusCodes.HTTP_NOT_FOUND, ResponseMessage.USER_NOT_FOUND);
+        }
+
+        const updatedUser = await Users.findByIdAndUpdate(objectId, updates, { new: true, runValidators: true });
+
+        Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, updatedUser);
+
+    } catch (error) {
+        console.error(error);
+        Response.errors(req, res, StatusCodes.HTTP_BAD_REQUEST, ResponseMessage.UPDATE_FAILED);
+    }
+}
+
 
 module.exports = AuthService;

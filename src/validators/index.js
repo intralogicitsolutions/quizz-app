@@ -6,5 +6,6 @@ module.exports = {
     ExamDetailValidator: require("./exam_detail.validator"),
     ScoreDetailValidator: require("./score_detail.validator"),
     RankDetailValidator: require("./rank_detail.validator"),
-    ExamResultValidator: require("./exam_result.validator")
+    ExamResultValidator: require("./exam_result.validator"),
+ 
 };
