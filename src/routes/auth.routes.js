@@ -12,5 +12,7 @@ AuthRoute.post('/resetPassword', AuthValidator.resetPassword, AuthController.res
 AuthRoute.patch('/profile/:id', VerifyToken.validate_token,AuthValidator.editUserProfile, AuthController.editUserProfile);
 AuthRoute.get('/profile/', VerifyToken.validate_token,AuthValidator.getUserProfile, AuthController.getUserProfile);
 
+AuthRoute.post('/logout', VerifyToken.validate_token, AuthController.logout);
+
 
 module.exports = AuthRoute;

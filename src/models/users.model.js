@@ -25,7 +25,11 @@ const UsersSchema = new Schema({
     },
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
-    //    required: true,
+       required: true,
+    },
+    isLoggedOut: {
+        type: Boolean,
+        default: false
     },
 });
 

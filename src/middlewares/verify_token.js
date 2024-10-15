@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const Response = require("./responses");
 const { StatusCodes, ResponseMessage } = require("../constants");
+const { BlacklistedToken  } = require('../models');
 
 class BaseValidation { }
 BaseValidation.validate_token = async (req, res, next) => {
@@ -13,6 +14,12 @@ BaseValidation.validate_token = async (req, res, next) => {
         };
 
         token = token.slice(7, token.length);
+
+        const isBlacklisted = await BlacklistedToken.findOne({ token });
+        if (isBlacklisted) {
+            return Response.errors(req, res, StatusCodes.HTTP_UNAUTHORIZED, ResponseMessage.UNAUTHORIZED);
+        }
+
 
         const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 

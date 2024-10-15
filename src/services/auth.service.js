@@ -1,6 +1,7 @@
 const { Response } = require("../middlewares");
 const { StatusCodes, ResponseMessage } = require("../constants");
 const { Users } = require("../models");
+const { BlacklistedToken  } = require('../models');
 const { EncDec } = require("../helper");
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
@@ -105,7 +106,6 @@ const generateAuthToken = async (user) => {
     return jwt_token;
 }
 
-
 const sendResetEmail = async (req, res, email, message, resetToken) => {
     console.log('process.env.SMTP_USERprocess.env.SMTP_USER',process.env.SMTP_USER, process.env.SMTP_PASS)
     try {
@@ -197,5 +197,29 @@ AuthService.getUserProfile = async(req, res) => {
       }
 }
 
+AuthService.logout = async (req, res) => {
+    const  token = req.header('Authorization')?.replace('Bearer ', '');
+    
+    if (!token) {
+        return Response.errors(req, res, StatusCodes.HTTP_BAD_REQUEST, ResponseMessage.TOKEN_MISSING);
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        // const userId = decoded.id;
+        // await Users.findByIdAndDelete(userId);
+
+        const expiration = new Date(decoded.exp * 1000);
+        const blacklistedToken = new BlacklistedToken({
+            token,expiration
+        });
+        await blacklistedToken.save();
+
+        Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.LOGOUT_SUCCESS);
+    } catch (error) {
+        return Response.errors(req, res, StatusCodes.HTTP_UNAUTHORIZED, ResponseMessage.INVALID_TOKEN);
+    }
+
+}
 
 module.exports = AuthService;

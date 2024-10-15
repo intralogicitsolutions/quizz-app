@@ -66,5 +66,15 @@ AuthController.getUserProfile = async (req, res) => {
     }
 }
 
+AuthController.logout = async (req, res) => {
+    try {
+        Logger.info(`'Logout' API Called`, { user_id: req?.user?._id, method: req?.method });
+        await AuthService.logout(req, res);
+    } catch (error) {
+        Logger.error(`'Logout' API Error: ${error.message}`, { user_id: req?.user?._id, method: req?.method });
+        Response.errors(req, res, StatusCodes.HTTP_INTERNAL_SERVER_ERROR, ResponseMessage.TRY_AGAIN_LATER);
+    }
+}
+
 
 module.exports = AuthController;

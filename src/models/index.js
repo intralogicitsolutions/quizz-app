@@ -7,4 +7,5 @@ module.exports = {
     ScoreDetails: require('./score_detail.model'),
     RankDetails: require('./rank_detail.model'),
     ExamResults: require('./exam_result.model'),
+    BlacklistedToken: require('./blacklist.model'),
 }
