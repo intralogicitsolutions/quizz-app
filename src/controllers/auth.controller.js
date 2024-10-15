@@ -46,6 +46,18 @@ AuthController.resetPassword = async (req, res) => {
     
 }
 
+AuthController.reset_password = async (req, res) => {
+    try {
+        Logger.info(`'Reset password' API Called`, { user_id: req?.user?._id, method: req?.method });
+        await AuthService.reset_password(req, res);
+    } catch (error) {
+        Logger.error(`'Reset password' API Error: ${error.message}`, { user_id: req?.user?._id, method: req?.method });
+        Response.errors(req, res, StatusCodes.HTTP_INTERNAL_SERVER_ERROR, ResponseMessage.TRY_AGAIN_LATER);
+    }
+    
+ }
+
+
 AuthController.editUserProfile = async (req, res) => {
     try {
         Logger.info(`'Update EditUserProfile' API Called`, { user_id: req?.user?._id, method: req?.method });

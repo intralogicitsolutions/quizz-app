@@ -8,6 +8,7 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 const mongoose = require("mongoose");
 const { ObjectId } = require("mongodb");
+const bcrypt = require("bcrypt");
 
 class AuthService { }
 
@@ -97,6 +98,37 @@ AuthService.resetPassword = async (req, res) => {
     } catch (error) {
         return Response.errors(req, res, StatusCodes.HTTP_BAD_REQUEST, ResponseMessage.INVALID_TOKEN);
     }
+}
+
+AuthService.reset_password = async (req, res) => {
+    const { email_id, newPassword } = req.body;
+
+    if (!email_id || !newPassword) {
+        return res.status(400).json({success: false, message: 'Email and new password are required' });
+      }
+
+      try {
+        // Find user by email
+        const user = await Users.findOne({ email_id });
+        if (!user) {
+          return res.status(404).json({success: false, message: 'User not found' });
+        }
+    
+        // Hash new password
+       // const hashedPassword  = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        user.user_id = user._id;
+        // user.password = await bcrypt.hash(newPassword, salt);
+    
+        // Save the user with the new password
+        await user.save();
+    
+        return res.status(200).json({ message: 'Password reset successfully' });
+      } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Server error' });
+      }
 }
 
 

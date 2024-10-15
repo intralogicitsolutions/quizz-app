@@ -40,6 +40,16 @@ AuthValidation.resetPassword = (req, res, next) => {
     return BaseValidation.body(req, res, next, obj);
 };
 
+AuthValidation.reset_password = (req, res, next) => {
+    const obj = Joi.object({
+        email_id: Joi.string().email().required(), 
+        newPassword: Joi.string().required(), 
+    });
+
+    return BaseValidation.body(req, res, next, obj);
+};
+
+
 AuthValidation.editUserProfile = (req, res, next) =>{
     const obj = Joi.object({
         first_name: Joi.string().optional(),
