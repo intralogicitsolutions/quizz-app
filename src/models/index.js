@@ -8,4 +8,5 @@ module.exports = {
     RankDetails: require('./rank_detail.model'),
     ExamResults: require('./exam_result.model'),
     BlacklistedToken: require('./blacklist.model'),
+    ImageUpload: require('./image_upload.model')
 }

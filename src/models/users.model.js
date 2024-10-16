@@ -17,6 +17,10 @@ const UsersSchema = new Schema({
         type: String,
         required: true
     },
+    image_path:{
+        type: String,
+        required: false
+    },
     reset_token: {
         type: String,
     },
@@ -25,12 +29,13 @@ const UsersSchema = new Schema({
     },
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
-       required: true,
+    //    required: true,
     },
     isLoggedOut: {
         type: Boolean,
         default: false
     },
+    
 });
 
 module.exports = mongoose.model("users", UsersSchema);

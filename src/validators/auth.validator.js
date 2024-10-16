@@ -9,6 +9,7 @@ AuthValidation.signup = (req, res, next) => {
         last_name: Joi.string().required(),
         email_id: Joi.string().email().required(),
         password: Joi.string().required(),
+       image_path: Joi.string().optional()
     });
 
     return BaseValidation.body(req, res, next, obj);

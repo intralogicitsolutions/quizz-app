@@ -7,4 +7,5 @@ module.exports = {
     ScoreDetailController: require('./score_detail.controller'),
     RankDetailController: require('./rank_detail.controller'),
     ExamResultController: require('./exam_result.controller'),
+    //ImageUploadController: require('./image_upload.controller')
 }

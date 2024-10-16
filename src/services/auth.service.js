@@ -9,12 +9,19 @@ require('dotenv').config();
 const mongoose = require("mongoose");
 const { ObjectId } = require("mongodb");
 const bcrypt = require("bcrypt");
+// const { v4: uuidv4 } = require('uuid');
 
 class AuthService { }
 
 AuthService.signup = async (req, res) => {
     const body = req.body;
-    const { email_id, password } = body;
+    const { email_id, password, } = body;
+
+    // if (req.file) {
+    //     body.image_path = req.file.path; // Save the image path
+    // }
+    // const imagePath = req.file ? req.file.path : null;
+
     const data = await Users.find({ email_id });
     if (data && data?.length) {
         return Response.errors(req, res, StatusCodes.HTTP_BAD_REQUEST, ResponseMessage.USER_ALREADY_EXISTS);
@@ -22,6 +29,17 @@ AuthService.signup = async (req, res) => {
 
     const encryptedPassword = await EncDec.hash_password(password);
     body['password'] = encryptedPassword;
+
+    if (req.file) {
+        body['image_path'] = req.file.path; // Use the path from multer
+    }
+
+    // if (imagePath) {
+    //     body['image_path'] = imagePath;
+    // }
+
+    // body['user_id'] = uuidv4(); 
+
     const user = await new Users(body).save();
     delete user._doc.password;
     Response.success(req, res, StatusCodes.HTTP_OK, ResponseMessage.SUCCESS, user);
@@ -116,7 +134,7 @@ AuthService.reset_password = async (req, res) => {
     
         // Hash new password
        // const hashedPassword  = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const hashedPassword = await bcrypt.hash(newPassword);
         user.password = hashedPassword;
         user.user_id = user._id;
         // user.password = await bcrypt.hash(newPassword, salt);
@@ -238,8 +256,6 @@ AuthService.logout = async (req, res) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        // const userId = decoded.id;
-        // await Users.findByIdAndDelete(userId);
 
         const expiration = new Date(decoded.exp * 1000);
         const blacklistedToken = new BlacklistedToken({

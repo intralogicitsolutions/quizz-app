@@ -1,3 +1,5 @@
+const { ImageUpload } = require("../models");
+
 module.exports = {
     AuthService: require("./auth.service"),
     LanguageService: require("./language.service"),
@@ -7,4 +9,5 @@ module.exports = {
     ScoreDetailService: require("./score_detail.service"),
     RankDetailService: require("./rank_detail.service"),
     ExamResultService: require("./exam_result.service"),
+    ImageUploadService: require("./image_upload.service")
 };
