@@ -64,7 +64,7 @@
 
 
 const { ImageUpload } = require("../models");
-const path = require('path');
+const path = require('path'); 
 
 // Multer configuration for image uploads
 const multer = require('multer');
@@ -87,10 +87,13 @@ const uploadImage = (req, res) => {
     return res.status(400).send({ message: 'No file uploaded' });
   }
 
+  const img_url = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+
   const image = new ImageUpload({
     filename: req.file.filename,
     path: req.file.path,
-    originalName: req.file.originalname,
+    originalName: req.file.originalname,  
+    img_url: img_url,
   });
 
   // Save image metadata to MongoDB
@@ -102,7 +105,8 @@ const uploadImage = (req, res) => {
           _id: result._id,
           filename: result.filename,
           path: result.path,
-          originalName: result.originalName
+          originalName: result.originalName,
+          img_url: result.img_url,
         }
       });
     })
