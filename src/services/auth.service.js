@@ -238,6 +238,7 @@ AuthService.getUserProfile = async(req, res) => {
             last_name: user.last_name,
             email_id: user.email_id,
             password: user.password,
+            image_path: user.image_path,
             reset_token: user.reset_token,
             reset_token_expires: user.reset_token_expires,
           

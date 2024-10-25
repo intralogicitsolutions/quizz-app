@@ -57,6 +57,7 @@ AuthValidation.editUserProfile = (req, res, next) =>{
         last_name: Joi.string().optional(),
         email_id: Joi.string().email().optional(),
         password: Joi.string().optional(),
+        image_path: Joi.string().optional(),
     });
 
     return BaseValidation.body(req, res, next, obj);
