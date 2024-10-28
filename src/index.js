@@ -13,7 +13,7 @@ const app = express();
 app.use(bodyParser.json({ limit: "1024mb" }));
 app.use(bodyParser.urlencoded({ limit: "1024mb", extended: true }));
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Error-handling middleware for logging errors
 app.use((err, req, res, next) => {

@@ -34,7 +34,9 @@ AuthValidation.forgotPassword = (req, res, next) => {
 
 AuthValidation.resetPassword = (req, res, next) => {
     const obj = Joi.object({
-        token: Joi.string().required(), 
+        //token: Joi.string().required(), 
+        email_id: Joi.string().email().required(),
+        otp: Joi.number().required(),
         new_password: Joi.string().required(), 
     });
 
@@ -43,7 +45,7 @@ AuthValidation.resetPassword = (req, res, next) => {
 
 AuthValidation.reset_password = (req, res, next) => {
     const obj = Joi.object({
-        email_id: Joi.string().email().required(), 
+        password: Joi.string().required(), 
         newPassword: Joi.string().required(), 
     });
 

@@ -21,12 +21,12 @@ const UsersSchema = new Schema({
         type: String,
         required: false
     },
-    reset_token: {
-        type: String,
-    },
-    reset_token_expires: {
-        type: Date,
-    },
+    // reset_token: {
+    //     type: String,
+    // },
+    // reset_token_expires: {
+    //     type: Date,
+    // },
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
     //    required: true,
@@ -35,6 +35,12 @@ const UsersSchema = new Schema({
         type: Boolean,
         default: false
     },
+    otp: {
+        type: Number,
+    },
+    otp_expires: {
+        type: Date,
+    }
     
 });
 

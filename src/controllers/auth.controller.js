@@ -55,10 +55,10 @@ AuthController.forgotPassword = async (req, res) => {
 
 AuthController.resetPassword = async (req, res) => {
     try {
-        Logger.info(`'Reset Password' API Called`, { token: req.body?.token, method: req?.method });
+        Logger.info(`'Reset Password' API Called`, { email_id: req.body?.email_id, method: req?.method });
         await AuthService.resetPassword(req, res);
     } catch (error) {
-        Logger.error(`'Reset Password' API Error: ${error.message}`, { token: req.body?.token, method: req?.method });
+        Logger.error(`'Reset Password' API Error: ${error.message}`, { email_id: req.body?.email_id, method: req?.method });
         Response.errors(req, res, StatusCodes.HTTP_INTERNAL_SERVER_ERROR, ResponseMessage.TRY_AGAIN_LATER);
     }
     
