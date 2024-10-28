@@ -46,7 +46,8 @@ AuthValidation.resetPassword = (req, res, next) => {
 AuthValidation.reset_password = (req, res, next) => {
     const obj = Joi.object({
         password: Joi.string().required(), 
-        newPassword: Joi.string().required(), 
+        newPassword: Joi.string().allow(''), 
+        //newPassword: Joi.string().required(), 
     });
 
     return BaseValidation.body(req, res, next, obj);

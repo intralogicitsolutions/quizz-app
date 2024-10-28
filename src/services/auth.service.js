@@ -139,9 +139,13 @@ AuthService.resetPassword = async (req, res) => {
 AuthService.reset_password = async (req, res) => {
     const { password, newPassword } = req.body;
 
-    if (!password || !newPassword) {
-        return res.status(400).json({success: false, message: 'Email and new password are required' });
-      }
+    // if (!password || !newPassword) {
+    //     return res.status(400).json({success: false, message: 'Email and new password are required' });
+    //   }
+
+    if (!password) {
+        return res.status(400).json({ success: false, message: 'Current password is required' });
+    }
 
       try {
         console.log('Request User:', req.user);
@@ -156,9 +160,16 @@ AuthService.reset_password = async (req, res) => {
         if (!isMatch) {
             return res.status(401).json({ success: false, message: 'Current password is incorrect' });
         }
+
+        if (!newPassword) {
+            return res.status(200).json({
+                success: true,
+                message: 'Current password is correct'
+            });
+        }
     
         // Hash new password
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        const hashedPassword = await bcrypt.hash(newPassword, 15);
         user.password = hashedPassword;
        // user.user_id = user._id;
     
@@ -166,6 +177,7 @@ AuthService.reset_password = async (req, res) => {
         await user.save();
     
         return res.status(200).json({ message: 'Password reset successfully' });
+        
       } catch (err) {
         console.error(err);
         return res.status(500).json({ message: 'Server error' });
