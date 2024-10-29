@@ -2,10 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ImageUploadSchema  = new Schema({
-    // image_path:{
-    //     type: String,
-    //     required: true
-    // }
+    
     filename: {
         type: String,
         required: true,

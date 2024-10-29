@@ -74,19 +74,13 @@ AuthService.forgotPassword = async (req, res) => {
             return Response.errors(req, res, StatusCodes.HTTP_NOT_FOUND, ResponseMessage.USER_NOT_FOUND);
         }
 
-        // const resetToken = jwt.sign({ user_id: user._id }, process.env.JWT_SECRET, { expiresIn: '8h' });
-        // user.reset_token = resetToken;
-        // user.reset_token_expires = Date.now() + 8 * 60 * 60 * 1000;
-        // await user.save();
-
-        // const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+    
 
         const otp = Math.floor(1000 + Math.random() * 9000);
         user.otp = otp;
         user.otp_expires = Date.now() + 10 * 60 * 1000;
         await user.save();
-        //return otp.toString(); // Convert the number to a string
-        //const emailBody = `Click the following link to reset your password: ${otp.toString()}`;
+        
         const emailBody = `Your OTP for password reset is: ${otp}. It expires in 10 minutes.`;
         await sendResetEmail(req, res, email_id, emailBody); 
 
@@ -98,34 +92,26 @@ AuthService.forgotPassword = async (req, res) => {
 
 
 AuthService.resetPassword = async (req, res) => {
-    //const { token, new_password } = req.body;
+    
     const { otp, new_password, email_id } = req.body;
 
     try {
-        //const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        // const user = await Users.findOne({ _id: decoded.user_id, reset_token: token });
-        // if (!user) {
-        //     return Response.errors(req, res, StatusCodes.HTTP_BAD_REQUEST, ResponseMessage.INVALID_TOKEN);
-        // }
-        // if (user.reset_token_expires && user.reset_token_expires < Date.now()) {
-        //     return Response.errors(req, res, StatusCodes.HTTP_BAD_REQUEST, ResponseMessage.TOKEN_EXPIRED);
-        // }
-
+      
+       
         const user = await Users.findOne({ email_id, otp });
 
         if (!user) {
             return Response.errors(req, res, StatusCodes.HTTP_BAD_REQUEST, ResponseMessage.INVALID_OTP);
         }
 
-        // Check if OTP is expired
+       
         if (user.otp_expires && user.otp_expires < Date.now()) {
             return Response.errors(req, res, StatusCodes.HTTP_BAD_REQUEST, ResponseMessage.OTP_EXPIRED);
         }
 
         const encryptedPassword = await EncDec.hash_password(new_password);
         user.password = encryptedPassword;
-        // user.reset_token = null;
-        // user.reset_token_expires = null;  
+       
         user.otp = null;
         user.otp_expires = null;
         await user.save();

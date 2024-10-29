@@ -22,7 +22,7 @@ const uploadImage = (req, res) => {
     return res.status(400).send({ message: 'No file uploaded' });
   }
 
-  const img_url = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+  const img_url = `${req.protocol}://${req.get('host')}/images/uploads/${req.file.filename}`;
 
   const image = new ImageUpload({
     filename: req.file.filename,
